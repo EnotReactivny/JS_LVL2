@@ -1,0 +1,8 @@
+body {
+  background: #000; }
+  body .good, body #basket_wrapper {
+    padding: 1em;
+    margin: 1em;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    background: #19beef; }

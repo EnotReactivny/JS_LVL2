@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<style>
+		* {
+			margin:0;
+			padding:0;
+		}
+
+		body {
+			padding:20px;
+		}
+
+		.form {
+			width: 200px;
+		}
+
+		.form__select {
+			width: 100%;
+			margin-bottom:20px;
+		}
+
+		.form__input {
+			width: 100%;
+			box-sizing: border-box;
+		}
+
+    .matches {
+    	list-style:none;
+			box-sizing: border-box;
+			width: 100%;
+			border: 1px solid #cdcdcd;
+    }
+
+    .matches li {
+    	padding:0 7px;
+			font-weight: bold;
+			font-family: Arial;
+			font-size: 12px;
+			line-height: 24px;
+    }
+    .matches li:hover {
+    	background: #bfddf5;
+    }
+   </style>
+</head>
+<body>
+	<form action="" id="form" class="form">
+		<select id="select" class="form__select"></select>
+		<div class="input-wrapper">
+			<input type="text" id="input" class="form__input" placeholder="Введите город" autocomplete="off">
+		</div>
+	</form>
+
+	<script>
+		$(document).ready(function() {
+			var cities = [];
+			var matches = "";
+
+			// Обработка ввода данных в поле
+			$("#input").keyup(function() {
+				var val = this.value
+				var reg = new RegExp("^"+val, "i")
+				console.log(reg)
+
+				var chars = 1;
+
+				// Выпонение автоподбора
+				if (val.length >= chars) {
+					matches = "";
+
+					// Проверка на совпадения
+					cities.map(function(value, index) {
+						var match = reg.exec(value)
+						if (match) {
+							matches += "<li>" + value + "</li>";
+						}
+					})
+
+					// Вывод списка автоподбора на странице
+					if (matches && $(".form__input:focus")) {
+						$(".input-wrapper ul").remove();
+						$(".input-wrapper").append("<ul class='matches'>" + matches + "</ul>" )	
+					} else if (!matches || !($(".form__input:not(:focus)"))) {
+						$(".input-wrapper ul").remove();
+					}
+
+				} else if (val.length < chars) {
+					$(".input-wrapper ul").remove();
+				}
+
+				// Выполнение автозаполнения формы при клике
+				$(".matches li").on("click", function() {
+					$("#input").val($(this).text())
+					$(".input-wrapper ul").remove();
+				})
+
+			})
+
+			$.get({
+				url: "https://api.myjson.com/bins/1bvsz6",
+				dataType: "json",
+				context: this,
+				success: function(response) {
+					cities = response.cities;
+					$(cities).each(function(index) {
+						$("#select").append("<option>"+this+"</option>")
+					});
+				}
+			});
+
+		})
+	</script>
+</body>
+</html>

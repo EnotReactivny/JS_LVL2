@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<style>
+		* {
+			margin:0;
+			padding:0;
+		}
+
+		body {
+			padding:20px;
+		}
+
+		.form {
+			width: 200px;
+		}
+
+		.form__select {
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+	<form action="" id="form" class="form">
+		<select id="select" class="form__select"></select>
+	</form>
+
+	<script>
+		$(document).ready(function() {
+			$.get({
+				url: "https://api.myjson.com/bins/xzpw2",
+				dataType: "json",
+				context: this,
+				success: function(response) {
+					var cities = response.cities;
+					$(cities).each(function(index) {
+						$("#select").append("<option>"+this+"</option>")
+					});
+				}
+			});
+		})
+	</script>
+</body>
+</html>

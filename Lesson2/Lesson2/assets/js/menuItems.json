@@ -1,0 +1,34 @@
+{
+  "menuItems": [
+    {
+      "itemHref": "/",
+      "itemName": "Главная"
+    },
+    {
+      "itemHref": "/catalogue/",
+      "itemName": "Каталог",
+      "subItems": [
+        {
+          "subItemHref": "/catalogue/cat1",
+          "subItemName": "Категория 1"
+        },
+        {
+          "subItemHref": "/catalogue/cat2",
+          "subItemName": "Категория 2"
+        }
+      ]
+    },
+    {
+      "itemHref": "gallery.html",
+      "itemName": "Галерея"
+    },
+    {
+      "itemHref": "/promo/",
+      "itemName": "Промо акции"
+    },
+    {
+      "itemHref": "/personal/",
+      "itemName": "Личный кабинет"
+    }
+  ]
+}

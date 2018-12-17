@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<style>
+		* {
+			margin:0;
+			padding:0; 
+		}
+
+		body {
+			padding:30px;
+		}
+
+		.container {
+			width:500px;
+		}
+
+		.list__item {
+			display: inline-block;
+			vertical-align:bottom;
+			padding:7px 15px;
+			box-sizing:border-box;
+			border-top:2px solid green;
+			border-left:2px solid green;
+			border-right:2px solid green;
+			border-radius:7px 7px 0 0;
+			text-align:center;
+			color:#fff;
+			background:#81c767;
+			cursor:pointer;
+		}
+
+		.list__item_active {
+			border-bottom:2px solid white;
+			background:#ffffff;
+			position: relative;
+			cursor:context-menu;
+			color:#000;
+			padding-bottom:12px
+		}
+
+		.list__item_active:after {
+			content: "";
+			display: block;
+			position: absolute;
+			height: 4px;
+			width: 100%;
+			bottom: -3px;
+			left: 0px;
+			background: white;
+			z-index: 1;
+		}
+
+		.tabs {
+			position:relative;
+		}
+
+		.tab {
+			position:absolute;
+			top:-2px;
+			left:0;
+			width:100%;
+			box-sizing:border-box;
+			padding:10px;
+			border:2px solid green;
+			background-color:white; 
+			display:none;
+		}
+
+		.tab_active {
+			display:block;
+			position:inherit;
+		}
+
+		.tab__text {
+			margin-bottom:10px;
+		}
+		
+	</style>
+</head>
+<body>
+	<div class="container">
+		<ul class="list">
+			<li class="list__item list__item_active">Вкладка 1</li>
+			<li class="list__item">Вкладка 2</li>
+			<li class="list__item">Вкладка 3</li>
+			<li class="list__item">Вкладка 4</li>
+		</ul>
+		<div class="tabs">
+			<div class="tab tab_active">
+				<p class="tab__text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis nihil voluptates, eaque rerum blanditiis nesciunt praesentium ut itaque nisi, vero qui officia ipsa, molestias nam quod rem earum dolore a.</p>
+			</div>
+			<div class="tab">
+				<p class="tab__text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit error quisquam, veritatis laboriosam molestias tempore voluptatibus earum natus sint quod illum blanditiis laudantium necessitatibus atque nesciunt alias dolorem sequi modi.</p>
+				<p class="tab__text">Mollitia dolorem illum, exercitationem quisquam sed rem voluptatum quo harum. Laborum quisquam, praesentium commodi accusantium! Itaque repellendus nemo suscipit iure laboriosam modi, aut officiis dolor quis enim officia quae amet!</p>
+			</div>
+			<div class="tab">
+				<p class="tab__text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem nesciunt omnis reiciendis sed voluptatibus ad molestiae saepe! Laboriosam doloremque omnis iure, doloribus animi suscipit sed, nostrum placeat nihil ipsam dicta.</p>
+				<p class="tab__text">Architecto voluptas quaerat ipsum minus quisquam, et enim vel ducimus praesentium hic! Similique error doloribus dolorum quasi iste perspiciatis quis distinctio, a sunt, corrupti inventore, fugit eaque saepe dolor ex.</p>
+				<p class="tab__text">Quas quia autem quisquam vero ipsam itaque aliquam voluptatibus, sequi laudantium suscipit corporis soluta! Rerum eos earum excepturi similique facere, dolor voluptatem hic iusto repellat perspiciatis tempore ad labore esse.</p>
+			</div>
+			<div class="tab">
+				<p class="tab__text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus adipisci eius ea. Enim, ducimus. Nemo accusantium error odit ipsum quos ratione voluptatibus natus blanditiis, a eos totam pariatur repellendus fugit.</p>
+				<p class="tab__text">Illo veritatis voluptate iste et, nihil deserunt, nobis tempore labore in quibusdam magnam optio deleniti. Rerum voluptatibus earum, deserunt nesciunt, adipisci fugiat officia. Nemo accusamus voluptas nisi dolore cumque rem.</p>
+				<p class="tab__text">Deserunt ratione explicabo molestiae, veritatis quisquam labore magnam totam, temporibus vel recusandae quaerat culpa? Tenetur est tempora fugit sed molestias sint at consectetur obcaecati dolores excepturi dolore debitis, explicabo laboriosam!</p>
+				<p class="tab__text">Necessitatibus sit fugiat doloremque fuga illo tempora ex, itaque culpa maiores neque assumenda, animi atque vero veritatis officiis soluta odio corporis quas cupiditate similique laborum eius saepe iste repellat omnis.</p>
+			</div>
+		</div>
+	</div>
+
+	<script>
+
+		$(document).ready(function() {
+			$(".list__item").click(function() {
+				$(this).addClass("list__item_active").siblings().removeClass("list__item_active");
+				$(".tab").eq($(this).index()).addClass("tab_active").siblings().removeClass("tab_active");
+			})
+		})
+		
+	</script>
+</body>
+</html>

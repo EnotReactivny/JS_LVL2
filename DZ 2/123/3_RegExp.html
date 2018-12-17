@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Form Validate</title>
+  <style>form{padding-left: 10px}div.form-elem{padding-bottom: 10px}input{width: 400px;}</style>
+</head>
+
+<body>
+  <form action=".">
+    <div class="form-elem">
+      <div>
+        <label for="name">Имя:</label>
+      </div>
+      <div>
+        <input type="text" name="name" id="name">
+      </div>
+    </div>
+    <div class="form-elem">
+      <div>
+        <label for="tel">Телефон:</label>
+      </div>
+      <div>
+        <input type="tel" name="tel" id="tel">
+      </div>
+    </div>
+    <div class="form-elem">
+      <div>
+        <label for="email">E-mail:</label>
+      </div>
+      <div>
+        <input type="email" name="email" id="email">
+      </div>
+    </div>
+    <div class="form-elem">
+      <div>
+        <label for="message">Сообщение:</label>
+      </div>
+      <div>
+        <input type="textarea" name="message" id="message">
+      </div>
+    </div>
+    <input type="submit" value="Отправить">
+  </form>
+  <script>
+    'use strict'
+    
+    // Немного ООП
+    class SpanNotifyElem {
+      constructor(elem, message) {
+        this.elem = elem;
+        this.message = message;
+        this.span = document.createElement('span');
+        this.span.innerText = message;
+        
+      }
+      render() {
+        this.elem.parentElement.appendChild(this.span);
+        console.log('123');
+      }
+    }
+    
+    // Описываем регулярные выражения
+    let reName = /[а-яёА-ЯЁa-zA-Z]+[ ]?[а-яёА-ЯЁa-zA-Z]+/, 
+        reTel = /\+\d\(\d{3}\)\d{3}-\d{2}-\d{2}/,
+        reEmail = /[\w\d]+\.?[\w\d]+@[\w\d]+\.{1}[\w\d]+/,
+        reMessage = /.+/;
+    
+    // Сохраняем ссылки на форму и ее элементы
+    let mainForm = document.querySelector('form'),
+      fieldName = document.querySelector('form #name'),
+      fieldTel = document.querySelector('form #tel'),
+      fieldEmail = document.querySelector('form #email'),
+      fieldMessage = document.querySelector('form #message');
+    
+    // Для удобства, создаем массивы с элементами, текстом сообщений и регулярками.
+    let arrElems = [fieldName, fieldTel, fieldEmail, fieldMessage];
+    let fillRules = ['Введите Ваше имя (не менее двух символов, только буквы)', 
+                     'Формат номера: +7(000)000-00-00', 
+                     'Только валидный e-mail: например, mymail@mail.ru', 
+                     'Сообщение должно быть не менее одного символа']
+    let reForElems = [reName, reTel, reEmail, reMessage];
+    
+    // Пробежимся по всем элементам формы и добавим им placeholder's
+    arrElems.forEach((elem, i) => {
+          elem.setAttribute('placeholder', fillRules[i]);
+      });
+
+    /**
+     * Определим функцию валидации формы.
+     * Она же показывает уведомление для клиента.
+     */
+    function checkAndNotify(elem, k) {
+      // Если value элемента соответствует регулярному выражению
+      if (!reForElems[k].test(elem.value)) {
+        // Покарсим рамку элемента в красный цвет
+        elem.style.borderColor = 'red';
+        // Так же, если предупреждение ранее не выводилось
+        if (!elem.nextElementSibling) {
+          // Создадим и выведем соответствующее предупреждение
+          let span = new SpanNotifyElem(elem, fillRules[k]);
+          span.render();
+        }
+      // Иначе все ОК
+      } else {
+        // Покрасим рамку в зеленый
+        elem.style.borderColor = 'green';
+        // И удалим предупреждение
+        if(elem.nextElementSibling) {
+          elem.nextElementSibling.remove();
+        }
+      }
+    }
+    
+    // Повесили обработчик на событие submit нашей формы
+    mainForm.addEventListener('submit', (e) => {
+      // Переопределили стандартное поведение события
+      e.preventDefault();
+      // При клике на submit бежим по элементам и валидируем каждый
+      for (let k in arrElems) {
+        checkAndNotify(arrElems[k], k);
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<script>
+	// Создаем суперкласс, конструктор Container
+	function Container()
+	{
+	  this.id = "";
+	  this.className= "";
+	  this.htmlCode = "";
+	}
+
+	// Добавляем метод render
+	Container.prototype.render = function()
+	{
+	   return this.htmlCode;
+	}
+
+	
+// Создаем класс, конструктор Menu
+	function Menu(my_id, my_class, my_items){
+	   Container.call(this); //наследуем свойства Container
+	   this.id = my_id;
+	   this.className = my_class;
+	   this.items = my_items;
+	}
+
+	//Создаем цепочку наследования Menu от Container	
+	Menu.prototype = Object.create(Container.prototype);
+	Menu.prototype.constructor = Menu;
+	
+	//Переопределяем метод render для класса Menu
+	Menu.prototype.render = function(){	
+		var result = "<ul class='"+this.className+"' id='"+this.id+"'>";
+
+		//В цикле проходимся по пунктам меню (this.items), внутри выполняем проверку на принадлежность к классу MenuItem
+		for(var item in this.items){			
+			if(this.items[item] instanceof MenuItem){
+				result += this.items[item].render();
+			}
+		}
+		result += "</ul>";
+		return result;
+	}
+	
+
+	//Создаем класс, конструктор для пункта меню
+	function MenuItem(my_href, my_name){
+	   Container.call(this); //наследуем свойства Container
+	   this.className = "menu-item";
+	   this.href = my_href;
+	   this.name = my_name;
+	}
+
+	//Создаем цепочку наследования MenuItem от Container	
+	MenuItem.prototype = Object.create(Container.prototype);
+	MenuItem.prototype.constructor = MenuItem;
+
+	//Переопределяем метод render для класса MenuItem
+	MenuItem.prototype.render = function(){
+		return "<li class='"+this.className+"' href='"+ this.href +"'>" + this.name + "</li>";
+	}
+
+	//Создаем 3 экземпляра, 3 пункта меню 
+	var m_item1 = new MenuItem("/", "Главная");
+	var m_item2 = new MenuItem("/catalogue/", "Каталог");
+	var m_item3 = new MenuItem("/gallery/", "Галерея");
+
+	//Убираем пункты меню в один объект, чтобы проще было его передать в качестве аргумента в конструктор Menu
+	var m_items = {0: m_item1, 1: m_item2, 2: m_item3};
+
+	//создаем экземпляр класса Menu
+	var menu = new Menu("my_menu", "My_class", m_items);
+
+	//Выводим меню и пункты меню на экран
+	document.write(menu.render());
+
+</script>
